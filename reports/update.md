@@ -34,12 +34,16 @@ I wrote 1D convolution & DTFT functions in dsp.c. For the 1D convolution functio
 
 ### 1. Revise functions so that they take arrays/filenames as arguments
 So far, both of the functions have input arrays defined inside the argument rather than taking them as arguments. I will revise the functions so that instead of having pre-defined arrays in the function, it will have arrays as input. This will enable me to further expand on this by letting the function take filename input instead of array input.
+**Definition of Done:** Functions will take arrays or files as arguments and use these arguments to return the functions & respective outputs.
 
 ### 2. Function saves array in a file.
 The function will save the outputs in a file that users can use to either edit or plot the results.
+**Definition of Done:** In the main(), while the functions print output arrays, they will also create csv (?) files that contain outputs of those files.
 
 ### 3. Use these functions with audio files
-I will use these functions with actual audio files. I will create new audio files with convolution and analyze different frequencies in audio files using DTFT.
+I will use these functions with actual audio files. I will create new audio files with convolution and analyze different frequencies in audio files using DTFT. For convolution, this could be the classic QEA problem where we use the clapping sound from a room to model how a music file would sound like in different rooms.
+**Definition of Done:** The functions will take audio files as input and save the output array as audio file as well as csv file.
 
 ### 4. Optimize functions
-I will figure out runtime of each function and see if there is any room for me to optimize function performance.  
+I will figure out runtime of each function and see if there is any room for me to optimize function performance.
+**Definition of Done:** The easiest way to test this is to plot runtime of original and modified functions with respect to size of array and compare runtime results.
