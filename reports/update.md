@@ -47,3 +47,6 @@ I will use these functions with actual audio files. I will create new audio file
 ### 4. Optimize functions
 I will figure out runtime of each function and see if there is any room for me to optimize function performance.
 **Definition of Done:** The easiest way to test this is to plot runtime of original and modified functions with respect to size of array and compare runtime results.
+
+**Trello:** https://trello.com/b/obZ4Vb82/digital-signal-processing
+**Github:** https://github.com/junwonlee5/SoftSysCuteDolphin
