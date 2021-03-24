@@ -1,12 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <complex.h>
+#include <math.h>
 
-float* convolve() {
-  float x[] = {1, 1, 1};
-  float h[] = {1, 1, 1};
-  int xlen = sizeof(x)/sizeof(x[0]);
-  int hlen = sizeof(h)/sizeof(h[0]);
+#define N 10
+#define PI 3.14159265
+
+float* convolve(float x[], float h[], int xlen, int hlen) {
+  //float x[] = {1, 1, 1};
+  //float h[] = {1, 1, 1};
+  //int xlen = sizeof(x)/sizeof(x[0]);
+  //int hlen = sizeof(h)/sizeof(h[0]);
   int ylen;
   ylen = xlen + hlen - 1;
   float *y = malloc(ylen);
@@ -44,25 +47,29 @@ float* convolve() {
 
 }
 
-float DFT(){
+float DFT(float data[]){
    int m, n;
-   float data[N];
+   //float data[N];
    float real[N], imag[N];
-
+   float out[2][N];
    for (m=0; m < N; m++) {
      real[m] = 0;
      for (n = 0; n <N; n++);
-      real[m] += data[m] * cos(2*3.14*n*m);
-      imag[m] -= data[m] * sin(2.3.14*n*m);
+      real[m] += data[m] * cos(2*PI*n*m);
+      imag[m] -= data[m] * sin(2*PI*n*m);
    }
 
 }
 
 int main() {
-
-  float *y = convolve();
+  float x[] = {1, 1, 1};
+  float h[] = {1, 1, 1};
+  int xlen = sizeof(x)/sizeof(x[0]);
+  int hlen = sizeof(h)/sizeof(h[0]);
+  float *y = convolve(x, h, xlen, hlen);
+  //int ylen = sizeof(&y);
   int i;
-  for (i = 0; i <= 4; i++) {
+  for (i = 0; i <5; i++) {
     printf("%f \n", y[i]);
   }
 }
