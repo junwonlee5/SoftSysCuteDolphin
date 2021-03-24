@@ -35,8 +35,8 @@ float* convolve(float x[], float h[], int xlen, int hlen) {
       l = hlen-1;
 
     }
-    printf("%d \n", k);
-    printf("%d \n", m);
+    //printf("%d \n", k);
+    //printf("%d \n", m);
     for (j=m;j<l+1; j++) {
       y[i] += x[k-j]*h[j];
 
@@ -50,26 +50,31 @@ float* convolve(float x[], float h[], int xlen, int hlen) {
 float DFT(float data[]){
    int m, n;
    //float data[N];
+   int i, j;
    float real[N], imag[N];
-   float out[2][N];
    for (m=0; m < N; m++) {
      real[m] = 0;
      for (n = 0; n <N; n++);
       real[m] += data[m] * cos(2*PI*n*m);
       imag[m] -= data[m] * sin(2*PI*n*m);
    }
-
+   for (i = 0; i <N; i++) {
+     printf("%f %f\n", real[i], imag[i]);
+   }
 }
 
 int main() {
   float x[] = {1, 1, 1};
   float h[] = {1, 1, 1};
+  float k[] = {1,1,1,1,1,1,1,1,1,1};
   int xlen = sizeof(x)/sizeof(x[0]);
   int hlen = sizeof(h)/sizeof(h[0]);
   float *y = convolve(x, h, xlen, hlen);
+  DFT(k);i
   //int ylen = sizeof(&y);
   int i;
   for (i = 0; i <5; i++) {
     printf("%f \n", y[i]);
   }
+
 }
