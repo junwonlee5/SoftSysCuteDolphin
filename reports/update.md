@@ -28,7 +28,7 @@ I need to know if there are any preexisting DSP libraries available. I will find
 I reviewed how discrete time convolution and DTFT work mathematically and think about how to translate these operations in C.
 
 ### Wrote 1D convolution + DTFT
-I wrote 1D convolution & DTFT functions in dsp.c. For the 1D convolution function, two float arrays are defined in the function, and t ohe function returns a float array of convolution of two defined arrays. For the DTFT function, one float array is taken, and the function will output array with two rows, where one row will consist of real part of the DTFT and the other will consist of imaginary part.
+I wrote 1D convolution & DTFT functions in dsp.c. For the 1D convolution function, two float arrays are defined in the function, and the function returns a float array of convolution of two defined arrays. For the DTFT function, one float array is taken, and the function will output array with two rows, where one row will consist of real part of the DTFT and the other will consist of imaginary part.
 
 ## What to Do Next
 
