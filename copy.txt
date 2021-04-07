@@ -1,0 +1,45 @@
+
+  float x[] = {1,0,0,0,0};
+  float h[] = {1,1};
+  int slen = sizeof(x)/sizeof(x[0]);
+  int hlen = sizeof(h)/sizeof(h[0]);
+  int ylen;
+  printf("%d \n", slen);
+  printf("%d \n", hlen);
+  float *y = convolve(x, h, slen, hlen, &ylen);
+  float **comp = DFT(x, slen);
+  //int ylen = sizeof(&y);
+  int i;
+  for (i = 0; i <ylen;i++){
+    printf("%f \n", y[i]);
+  }
+
+
+  char str[100] = "test";
+  //create_csv(str,y,ylen);
+  char str1[100] = "test1";
+  char str2[100] = "880.wav";
+  char str3[100] = "moo.wav";
+  char str4[100] = "Voice 020.wav";
+//  write_audio(str3, y);
+  float **read;
+  int frequency;
+  int read_len;
+  int side = 0;
+  int side2 = 0;
+  float **read2;
+  int frequency2;
+  int read_len2;
+  read = read_wav(str3, &frequency, &read_len);
+  float *m = choose_channel(read, read_len, side);
+  create_csv(str, m, read_len);
+  free(read);
+  read2 = read_wav(str2, &frequency2, &read_len2);
+  float *k = choose_channel(read2, read_len2, side2);
+  create_csv(str1, k, read_len2);
+  //free(read2);
+  int total_len;
+  int xlen = sizeof(&k);
+  printf("%d \n", xlen);
+  printf("%f \n", k[10]);
+  //float *p = convolve(m, k, read_len, read_len2, &total_len);
