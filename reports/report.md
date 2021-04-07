@@ -71,7 +71,7 @@ for (n=0; n < dlen; n++) {
 
 One thing that made me curious was how slow it was compared to the FFT function, which is more commonly used and faster than the traditional DFT function. I used the standard FFT function already available in C and ran the optimization test.  Figure below shows the runtime of DTFT function vs. input array. Looking at the code, I predicted it would operate in O(n^2) time.
 
-![Alt text](./Runtime of DTFT function vs Input Array Size.png?raw=true "Title")
+![graph](./reports/Runtime of DTFT function vs Input Array Size.png?raw=true "Title")
 
 We can see that the runtime grows significantly especially when the input array size goes beyond 15000. I compared this horrible performance with the FFT function already available.  Figure below shows the runtime of FFT function vs. input array.
 
