@@ -16,7 +16,7 @@ float* convolve(float x[], float h[], int xlen, int hlen, int * ylens) {
   //int hlen = sizeof(h)/sizeof(h[0]);
   int ylen;
   ylen = xlen + hlen - 1;
-  float *y = malloc(ylen);
+  float *y = (float *)malloc(sizeof(float *) * ylen);
   int i,j, k;
   float yval;
   for (i=0;i < ylen; i++) {
@@ -55,7 +55,7 @@ int create_csv(char *filename, float a[],int m){
   return 0;
 }
 
-float complex *DFT(float complex data[], int dlen){
+float complex *DFT(float data[], int dlen){
 
    int n, k;
    //float data[N];
@@ -100,16 +100,16 @@ float complex* fft(float complex buf[], int n)
 {
   int i;
   int j;
-	float complex *out = (float complex*)malloc(sizeof(float complex*) * n);
+  float complex *out = (float complex*)malloc(sizeof(float complex*) * n);
 	for (i = 0; i < n; i++) {
     out[i] = buf[i];
   }
 	_fft(buf, out, n, 1);
-  for (j = 0; j < n; j++) {
-    out[i] = buf[i];
-  }
   return out;
 }
+
+
+
 
 
 void show(const char * s, float complex buf[]) {
@@ -124,27 +124,6 @@ void show(const char * s, float complex buf[]) {
 
 
 float* choose_channel(float** x, int len, int side) {
-  //float x[] = {1, 1, 1};
-  //float h[] = {1, 1, 1};
-  //int xlen = sizeof(x)/sizeof(x[0]);
-  //int hlen = sizeof(h)/sizeof(h[0]);
-  int i;
-  //float y[len];
-
-  float *y = (float *)malloc(sizeof(float *) * len);
-  for (i=0;i <len;i++) {
-    if (side == 0) {
-      y[i] = x[i][0];
-    }
-    else {
-      y[i] = x[i][1];
-    }
-  }
-  return y;
-
-}
-
-float* choose_complex(float** x, int len, int side) {
   //float x[] = {1, 1, 1};
   //float h[] = {1, 1, 1};
   //int xlen = sizeof(x)/sizeof(x[0]);

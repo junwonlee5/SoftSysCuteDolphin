@@ -19,43 +19,59 @@ I am not comfortable writing C code. I hope that by writing these basic signal p
 ### Learning connection between writing C code and signal processing.
 I am familiar with and very interested in studying signal processing, and I am very curious about how similar the mathematical concepts in signal processing are relevant to writing efficient code for signal processing functions. For example, I could learn how C can make the calculations more efficient.  
 
-## Things I Need to Get started
-I need to know if there are any preexisting DSP libraries available. I will find them through googling.
-
-## What I worked on So Far
+## What I Have Accomplished
 
 ### Convolution function
-One of my two lower bound goals was to create a convolution function that took two float arrays x[] and h[] and outputted another array y[] that was equivalent to the convolution of x and h, or x * h. The function convolve takes 5 inputs total: float x[], float h[], int xlen, int hlen, and int ylen. The main assumption is that both arrays start at index of 0. If users want to show that data starts a little off from 0, they will have to pad the first part of data with 0’s.  The mathematical definition of discrete convolution is (add formula here). The illustration below shows how the formula works.
+One of my two lower bound goals was to create a convolution function that took two float arrays x[] and h[] and outputted another array y[] that was equivalent to the convolution of x and h, or x * h. In convolution, h[k] is reflected across k axis. Then, we shift the flipped h[k] by m, which we express as h[m-k]. For every shift, we see if x[k] overlaps with h[m-k]. For each overlap, we multiply the overlapping values and sum them up to get the convolution of two arrays x and h, or y[m] where m is the number of shifts. The function convolve takes 5 inputs total: float x[], float h[], int xlen, int hlen, and int ylen.
+
+```C
+float* convolve(float x[], float h[], int xlen, int hlen, int * ylens)
+```
+
+The main challenge of making convolution function was making sure that the function doesn't operate on index beyond range. This was solved by having limits such that the function knows where arrays x and h end and therefore terminate checking overlaps. The code snippet below demonstrates this logic.
+
+```C
+for (i=0;i < ylen; i++) {
+  k = i;
+  yval = 0.00;
+  for (j = 0; j <xlen; j++) {
+    if (k >=0)  {
+      if (k < hlen) {
+      yval += h[k]*x[j];
+      }
+    }
+    k = k-1;
+    y[i] = yval;
+  }
+
+```
+
+I also had annoying experiences in C where I could not calculate the length of the input float arrays x[] and h[] in the function. I had to make Another annoying experience for me was that for some reason in C the function had to return a pointer to the float instead of returning a float.
+
+To prove that the function was working properly, I inputted two arrays x = {1 1 1} and h = {0 0 1 0 0} and checked the output. Ideally it should output {0 0 1 1 1 0 0}. I ran the function and verified that it matched what I expected.
 
 
 
 ### DTFT Function
-The other lower bound goal was to create a DTFT function that took a float array x[] and outputted 2 * (length of float array) array,where one row consisted of real components of the DTFT and the other consisted of the imaginary component. The mathematical definition of DTFT is (add formula here). This was relatively a straight forward operation, where you implement the equation in this code snippet.
+The other lower bound goal was to create a DTFT function that took a float array x[] and outputted float complex array, where the row consisted of float complex elements. The mathematical definition of DTFT is (add formula here). This was relatively a straight forward operation, where you implement the equation in this code snippet.
 
-One thing that made me curious was how slow it was compared to the FFT function, which is more commonly used and faster than the traditional DTFT function. I used the standard FFT function already available in C and ran the optimization test.  
+One thing that made me curious was how slow it was compared to the FFT function, which is more commonly used and faster than the traditional DFT function. I used the standard FFT function already available in C and ran the optimization test.  Figure below shows the runtime of DTFT function vs. input array. Looking at the code, I predicted it would operate in O(n^2) time.
+
+We can see that the runtime grows significantly especially when the input array size goes beyond 15000. I compared this horrible performance with the FFT function already available.  Figure below shows the runtime of FFT function vs. input array.
+
+
+Looking at this, I can immediately see that the runtime is much shorter than DTFT's runtime. However, one thing I noticed was that when the array size went beyond 15000 I got memory error.
+
+This made me conclude that
 
 ### Saving Array in CSV FILE
 I made a create_csv file function that took an array as input and saved an elements inside the array in the csv file.
 
+### Working with audio files.
 
+I found a snippet of code that parsed WAV files and collected data from it. I modified the code so that the code not only parsed the audio file but also saved audio data in 2D array, where each column represented audio data from each channel (ex) left side & right side of earphones). I applied my convolution function to audio processing by doing a standard ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would.
 
-## What to Do Next
-
-### 1. Revise functions so that they take arrays/filenames as arguments
-So far, both of the functions have input arrays defined inside the argument rather than taking them as arguments. I will revise the functions so that instead of having pre-defined arrays in the function, it will have arrays as input. This will enable me to further expand on this by letting the function take filename input instead of array input.
-**Definition of Done:** Functions will take arrays or files as arguments and use these arguments to return the functions & respective outputs.
-
-### 2. Function saves array in a file.
-The function will save the outputs in a file that users can use to either edit or plot the results.
-**Definition of Done:** In the main(), while the functions print output arrays, they will also create csv (?) files that contain outputs of those files.
-
-### 3. Use these functions with audio files
-I will use these functions with actual audio files. I will create new audio files with convolution and analyze different frequencies in audio files using DTFT. For convolution, this could be the classic QEA problem where we use the clapping sound from a room to model how a music file would sound like in different rooms.
-**Definition of Done:** The functions will take audio files as input and save the output array as audio file as well as csv file.
-
-### 4. Optimize functions
-I will figure out runtime of each function and see if there is any room for me to optimize function performance.
-**Definition of Done:** The easiest way to test this is to plot runtime of original and modified functions with respect to size of array and compare runtime results.
-
+### Reflection
+I am somewhat satisfied with the progress I made on this project, mainly because I managed to reach the desired MVP. Also, I am happy with how much I feel more comfortable working with C after this project. Through extensive uses of pointers, arrays, and other tools, I feel more comfortable finding errors in my own code.
 **Trello:** https://trello.com/b/obZ4Vb82/digital-signal-processing
 **Github:** https://github.com/junwonlee5/SoftSysCuteDolphin
