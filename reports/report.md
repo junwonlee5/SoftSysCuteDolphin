@@ -78,16 +78,74 @@ We can see that the runtime grows significantly especially when the input array 
 
 Looking at this, I can immediately see that the runtime is much shorter than DTFT's runtime. However, one thing I noticed was that when the array size went beyond 15000 I got memory error.
 
-This made me conclude that
+This made me conclude that although FFT runs much faster than DTFT, DTFT can handle larger array sizes despite the high runtime.
 
 ### Saving Array in CSV FILE
 I made a create_csv file function that took an array as input and saved an elements inside the array in the csv file.
+```C
+void create_csv(char *filename, float a[],int m){
 
+  int p;
+  filename=strcat(filename,".csv");
+  FILE *fp=fopen(filename,"w");
+
+  for(p=0;p<m;p++){
+    fprintf(fp,"%f \n",a[p]);
+    }
+
+  fclose(fp);
+  printf("\nfile created\n");
+
+}
+```
 ### Working with audio files.
 
-I found a snippet of code that parsed WAV files and collected data from it. I modified the code so that the code not only parsed the audio file but also saved audio data in 2D array, where each column represented audio data from each channel (ex) left side & right side of earphones). I applied my convolution function to audio processing by doing a standard ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would.
+I found a snippet of code that parsed WAV files and collected data from it. I modified the code so that the code not only parsed the audio file but also saved audio data in 2D array, where each column represented audio data from each channel (ex) left side & right side of earphones). I applied my convolution function to audio processing by doing a standard QEA/ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would.
+
+```C
+char str[100] = "moo.wav";
+float **read;
+int frequency;
+int read_len;
+int side = 0;
+read = read_wav(str, &frequency, &read_len);
+float *m = choose_channel(read, read_len, side);
+char str1[100] = "voice020.wav";
+float **read1;
+int frequency1;
+int read_len1;
+int side1 = 0;
+read1 = read_wav(str1, &frequency1, &read_len1);
+float *n = choose_channel(read1, read_len1, side1);
+int ylen;
+float *y = convolve(m, n, read_len, read_len1, &ylen);
+int k;
+int p[ylen];
+for (k = 0; k < ylen;k++) {
+  p[k] = round(y[k]* 32768);
+}
+char str2[100] = "moomod.wav";
+write_wav(str2, ylen, p, 44100);
+```
+
+I also succeeded in saving audio file data into csv file using create_csv function.  
+
+I tried to plot DTFT of a sound file with known frequency, but unfortunately I could not get it because I could not make the function save complex numbers in the csv file.
 
 ### Reflection
-I am somewhat satisfied with the progress I made on this project, mainly because I managed to reach the desired MVP. Also, I am happy with how much I feel more comfortable working with C after this project. Through extensive uses of pointers, arrays, and other tools, I feel more comfortable finding errors in my own code.
+I am somewhat satisfied with the progress I made on this project, mainly because I managed to reach the desired MVP. Also, I am happy with how much I feel more comfortable working with C after this project. Through extensive uses of pointers, arrays, and other tools, I feel more comfortable finding errors in my own code. Unfortunately I did not get to save DTFT of audio files in csv file. I also did not get a chance to optimize any of the functions. If I continued working on this project, I would look into ways to save the complex numbers in DTFT in csv file and optimize the functions so that I could either reduce the runtime or allocate more memory to save more data.
+
+### Resources used
+
+**Original code that parses wav file:** http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/ (This was later modified to save the audio data in an array)
+
+**Code that saves audio data into wav file:** http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/ (This was used to hear audio data generated from convolution function)
+
+**FFT algorithm:** https://rosettacode.org/wiki/Fast_Fourier_transform#C (This code was used to compare its performance with my DTFT function's performance)
+
+**External Libraries Used:** complex (to output complex numbers for DTFT), wav.h (to parse wav files)
+
+
+### Links
 **Trello:** https://trello.com/b/obZ4Vb82/digital-signal-processing
 **Github:** https://github.com/junwonlee5/SoftSysCuteDolphin

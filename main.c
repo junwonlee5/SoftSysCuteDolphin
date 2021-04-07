@@ -28,6 +28,15 @@ float complex * create_random_array_comp(int count) {
    return a;
 
 }
+float complex * create_array_comp(float complex x[], int count) {
+   int i;
+   float complex * m = (float complex*)malloc(sizeof(float complex*) * count);
+   for (i=0;i <count;i++) {
+     m[i] = x[i];
+   }
+   return m;
+
+}
 int main() {
  /*
   char str[100] = "moo.wav";
@@ -55,17 +64,33 @@ int main() {
   write_wav(str2, ylen, p, 44100);
   // Calculate the time taken by fun()
 */
-
-  float x[] = {1,0,0,0,0};
+  char str[100] = "voice020.wav";
+  char str2[100] = "880";
+  float **read;
+  int frequency;
+  int read_len;
+  int side = 0;
+  read = read_wav(str, &frequency, &read_len);
+  float  *m = choose_channel(read, read_len, side);
+  //fft(m,read_len);
+  create_csv(str2,m,read_len);
+/*
+  float complex x[] = {1,0,0,0,0,0,0,0};
   float h[] = {1,1};
   int xlen = sizeof(x)/sizeof(x[0]);
   int hlen = sizeof(h)/sizeof(h[0]);
   int ylen;
-  float *y = convolve(x, h, xlen, hlen, &ylen);
+  //float *y = convolve(x, h, xlen, hlen, &ylen);
   int i;
-  for (i = 0; i <ylen;i++){
-    printf("%f \n", y[i]);
-  }
+  //for (i = 0; i <ylen;i++){
+  //  printf("%f \n", y[i]);
+  //}
+  //loat complex *a = create_array_comp(x, xlen);
+  int count = 8;
+  float complex *k = fft(x, count);
+  show("\nFFT : ", x,count);
+  printf("\n");
+*/
 /*
   int count = 12000;
   float *a = create_random_array(count);
@@ -79,4 +104,3 @@ int main() {
   return 0;
   */
 }
-  //0.541259765625000
