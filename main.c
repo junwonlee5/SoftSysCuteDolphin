@@ -29,7 +29,7 @@ float complex * create_random_array_comp(int count) {
 
 }
 int main() {
-
+ /*
   char str[100] = "moo.wav";
   float **read;
   int frequency;
@@ -54,7 +54,8 @@ int main() {
   char str2[100] = "moomod.wav";
   write_wav(str2, ylen, p, 44100);
   // Calculate the time taken by fun()
-  /*
+*/
+
   float x[] = {1,0,0,0,0};
   float h[] = {1,1};
   int xlen = sizeof(x)/sizeof(x[0]);
@@ -65,7 +66,7 @@ int main() {
   for (i = 0; i <ylen;i++){
     printf("%f \n", y[i]);
   }
-
+/*
   int count = 12000;
   float *a = create_random_array(count);
   clock_t t;

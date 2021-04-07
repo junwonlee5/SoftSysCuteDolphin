@@ -31,18 +31,19 @@ float* convolve(float x[], float h[], int xlen, int hlen, int * ylens)
 The main challenge of making convolution function was making sure that the function doesn't operate on index beyond range. This was solved by having limits such that the function knows where arrays x and h end and therefore terminate checking overlaps. The code snippet below demonstrates this logic.
 
 ```C
-for (i=0;i < ylen; i++) {
+for (i=0;i < ylen; i++) { // for loop occurs until the max shift happens
   k = i;
   yval = 0.00;
   for (j = 0; j <xlen; j++) {
     if (k >=0)  {
-      if (k < hlen) {
-      yval += h[k]*x[j];
+      if (k < hlen) { // k must be from 0 to (length of h - 1)
+      yval += h[k]*x[j];  // add values to y[i] for every overlap
       }
     }
     k = k-1;
-    y[i] = yval;
   }
+  y[i] = yval; // output y[i]
+}
 
 ```
 
@@ -53,9 +54,24 @@ To prove that the function was working properly, I inputted two arrays x = {1 1 
 
 
 ### DTFT Function
-The other lower bound goal was to create a DTFT function that took a float array x[] and outputted float complex array, where the row consisted of float complex elements. The mathematical definition of DTFT is (add formula here). This was relatively a straight forward operation, where you implement the equation in this code snippet.
+The other lower bound goal was to create a DTFT function that took a float array x[] and outputted float complex array, where the row consisted of float complex elements. This was relatively a straight forward operation, where you implement the equation in this code snippet.
+
+```C
+for (n=0; n < dlen; n++) {
+  real = 0;
+  imag = 0;
+  for (k = 0; k < dlen; k++) {
+   real += creal(data[k] * (cos(2*PI*n*k/dlen) -I * sin(2*PI*n*k/dlen)));
+   imag -= cimag(data[k] * (cos(2*PI*n*k/dlen) -I * sin(2*PI*n*k/dlen)));
+ }
+ float complex z = CMPLX(real, imag);
+ output[n] = z;
+}
+```
 
 One thing that made me curious was how slow it was compared to the FFT function, which is more commonly used and faster than the traditional DFT function. I used the standard FFT function already available in C and ran the optimization test.  Figure below shows the runtime of DTFT function vs. input array. Looking at the code, I predicted it would operate in O(n^2) time.
+
+![Alt text](./Runtime of DTFT function vs Input Array Size.png?raw=true "Title")
 
 We can see that the runtime grows significantly especially when the input array size goes beyond 15000. I compared this horrible performance with the FFT function already available.  Figure below shows the runtime of FFT function vs. input array.
 

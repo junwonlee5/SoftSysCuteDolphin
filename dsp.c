@@ -20,7 +20,7 @@ float* convolve(float x[], float h[], int xlen, int hlen, int * ylens) {
   int i,j, k;
   float yval;
   for (i=0;i < ylen; i++) {
-    k = i;
+    k = i; // k
     yval = 0.00;
     for (j = 0; j <xlen; j++) {
       if (k >=0)  {
@@ -29,8 +29,8 @@ float* convolve(float x[], float h[], int xlen, int hlen, int * ylens) {
         }
       }
       k = k-1;
-      y[i] = yval;
     }
+    y[i] = yval;
   }
   (*ylens) = ylen;
   return y;
