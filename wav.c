@@ -7,12 +7,16 @@
 
 #define TRUE 1
 #define FALSE 0
-/* Function which reads through a wav file header
-	 Reads wav file header and populates waveheader struct
-	 and writes the header to a new wave file which will
-	 contain the filtered signal.
-	 in_file: wav file to be filtered
-	 out_file: wav file to contain filtered data
+/*
+
+This function was modified from user amit's original file wave.c which saved all
+data in the given wav file in specific header struct.  In addition to saving
+all data, the function saves the the data in 2D array, where each row consists of
+audio data from different channel (ex) left & right side of headphones)
+input; filename of audio file, pointer to frequency, pointer to datalen
+output: 2d array of audio data, should also save sampled frequency & audio data length
+to frequency & datale
+
 */
 float** read_wav (char *filename , int *frequency, int *datalen) {
   FILE *ptr;

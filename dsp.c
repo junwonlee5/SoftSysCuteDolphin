@@ -9,11 +9,15 @@
 #define N 100000
 #define PI 3.14159265
 
+/*
+Convolve: convoles two arrays x and h
+input: float arrays x, h, their lengths, and pointer to ylen that will save
+the length of output array;
+output: float array y which is convolution of x and h
+*/
+
 float* convolve(float x[], float h[], int xlen, int hlen, int * ylens) {
-  //float x[] = {1, 1, 1};
-  //float h[] = {1, 1, 1};
-  //int xlen = sizeof(x)/sizeof(x[0]);
-  //int hlen = sizeof(h)/sizeof(h[0]);
+
   int ylen;
   ylen = xlen + hlen - 1;
   float *y = (float *)malloc(sizeof(float *) * ylen);
@@ -37,6 +41,12 @@ float* convolve(float x[], float h[], int xlen, int hlen, int * ylens) {
 
 }
 
+/*
+create_csv: save data in float array in csv file.
+input: filename of csv, float array, length of float array
+output: it should save csv file with data
+*/
+
 void create_csv(char *filename, float a[],int m){
 
   int p;
@@ -51,6 +61,15 @@ void create_csv(char *filename, float a[],int m){
   printf("\nfile created\n");
 
 }
+
+/*
+create_csv_comp: save data in float complex  array in csv file.
+input: filename of csv, float array, length of float array
+output: it should save csv file with data
+
+IN PROGRESS OF FIXING THIS
+*/
+
 void create_csv_comp(char *filename, float complex a[],int m){
 
   int p;
@@ -67,6 +86,20 @@ void create_csv_comp(char *filename, float complex a[],int m){
   printf("\nfile created\n");
 
 }
+
+/*
+DFT: computes DTFT of the float array. This is NOT FFT, so it will compute DTFT
+in brute force way. To read about DTFT, read this:
+https://en.wikipedia.org/wiki/Discrete-time_Fourier_transform
+
+
+input:float array, length of float array
+output: float complex array that sould save DTFT of the array, each element is
+complex number
+
+IN PROGRESS OF FIXING THIS
+*/
+
 float complex *DFT(float data[], int dlen){
 
    int n, k;
@@ -85,14 +118,14 @@ float complex *DFT(float data[], int dlen){
     float complex z = CMPLX(real, imag);
     output[n] = z;
    }
-   /*
-   for (i = 0; i <dlen; i++) {
-     printf("%f %f\n", real[i], imag[i]);
-   }
-   */
+
    return output;
 }
 
+/*
+The three functions below(_fft, fft, show) are from external sources. They are
+modified so that they output desired data type (complex float)
+*/
 void _fft(float complex buf[], float complex out[], int n, int step)
 {
   if (step < n) {
@@ -125,8 +158,6 @@ float complex* fft(float complex buf[], int n)
 
 
 
-
-
 void show(const char * s, float complex buf[], int n) {
 	printf("%s", s);
 	for (int i = 0; i < n; i++)
@@ -136,15 +167,15 @@ void show(const char * s, float complex buf[], int n) {
 			printf("(%g, %g) ", creal(buf[i]), cimag(buf[i]));
 }
 
+/*
+choose_channel: chooses channel and its data that we want.
+input: pointer to pointer to float array, length of array, side (channel choice)
+(side = 0 => channel 1, side = 2 => channel 2)
+output: float array that has data from one of the channels
 
+*/
 float* choose_channel(float** x, int len, int side) {
-  //float x[] = {1, 1, 1};
-  //float h[] = {1, 1, 1};
-  //int xlen = sizeof(x)/sizeof(x[0]);
-  //int hlen = sizeof(h)/sizeof(h[0]);
   int i;
-  //float y[len];
-
   float *y = (float *)malloc(sizeof(float *) * len);
   for (i=0;i <len;i++) {
     if (side == 0) {
@@ -157,14 +188,18 @@ float* choose_channel(float** x, int len, int side) {
   return y;
 
 }
-float complex* choose_channel_comp(float** x, int len, int side) {
-  //float x[] = {1, 1, 1};
-  //float h[] = {1, 1, 1};
-  //int xlen = sizeof(x)/sizeof(x[0]);
-  //int hlen = sizeof(h)/sizeof(h[0]);
-  int i;
-  //float y[len];
 
+/*
+choose_channel: chooses channel and its data that we want. Made specifically
+for channel with complex number data
+input: pointer to pointer to float array, length of array, side (channel choice)
+(side = 0 => channel 1, side = 2 => channel 2)
+output: float array that has data from one of the channels
+
+IN PROGRESS OF FIXING THIS FUNCTION
+*/
+float complex* choose_channel_comp(float** x, int len, int side) {
+  int i;
   float complex *y = (float complex*)malloc(sizeof(float complex*) * len);
   for (i=0;i <len;i++) {
     if (side == 0) {

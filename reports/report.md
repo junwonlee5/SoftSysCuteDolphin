@@ -100,7 +100,26 @@ void create_csv(char *filename, float a[],int m){
 ```
 ### Working with audio files.
 
-I found a snippet of code that parsed WAV files and collected data from it. I modified the code so that the code not only parsed the audio file but also saved audio data in 2D array, where each column represented audio data from each channel (ex) left side & right side of earphones). I applied my convolution function to audio processing by doing a standard QEA/ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would.
+I found a snippet of code that parsed WAV files and collected data from it. I modified the code so that the code not only parsed the audio file but also saved audio data in 2D array, where each column represented audio data from each channel (ex) left side & right side of earphones).
+
+I had to write separate function choose_channel so that I can only use 1 channel audio data.
+```C
+float* choose_channel(float** x, int len, int side) {
+  int i;
+  float *y = (float *)malloc(sizeof(float *) * len);
+  for (i=0;i <len;i++) {
+    if (side == 0) {
+      y[i] = x[i][0];
+    }
+    else {
+      y[i] = x[i][1];
+    }
+  }
+  return y;
+
+}
+```
+I applied my convolution function to audio processing by doing a standard QEA/ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would.
 
 ```C
 char str[100] = "moo.wav";
@@ -132,6 +151,10 @@ I also succeeded in saving audio file data into csv file using create_csv functi
 
 I tried to plot DTFT of a sound file with known frequency, but unfortunately I could not get it because I could not make the function save complex numbers in the csv file.
 
+### Header files
+
+I was writing all functions in single file, and it became a hassle to scroll down over and over again. I decided to make header files so that files and functions are more organized. wav.h contains read_wav(), make_wav.h contains write_wav(), dsp.h contains convolve(), create_csv(), DFT(), FFT(), and choose_channel() functions.
+
 ### Reflection
 I am somewhat satisfied with the progress I made on this project, mainly because I managed to reach the desired MVP. Also, I am happy with how much I feel more comfortable working with C after this project. Through extensive uses of pointers, arrays, and other tools, I feel more comfortable finding errors in my own code. Unfortunately I did not get to save DTFT of audio files in csv file. I also did not get a chance to optimize any of the functions. If I continued working on this project, I would look into ways to save the complex numbers in DTFT in csv file and optimize the functions so that I could either reduce the runtime or allocate more memory to save more data.
 
@@ -139,7 +162,7 @@ I am somewhat satisfied with the progress I made on this project, mainly because
 
 **Original code that parses wav file:** http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/ (This was later modified to save the audio data in an array)
 
-**Code that saves audio data into wav file:** http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/ (This was used to hear audio data generated from convolution function)
+**Code that saves audio data into wav file:** https://karplus4arduino.wordpress.com/2011/10/08/making-wav-files-from-c-programs/ (This was used to hear audio data generated from convolution function)
 
 **FFT algorithm:** https://rosettacode.org/wiki/Fast_Fourier_transform#C (This code was used to compare its performance with my DTFT function's performance)
 
