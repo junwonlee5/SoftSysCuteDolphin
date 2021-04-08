@@ -23,6 +23,7 @@ I am familiar with and very interested in studying signal processing, and I am v
 
 ### Convolution function
 One of my two lower bound goals was to create a convolution function that took two float arrays x[] and h[] and outputted another array y[] that was equivalent to the convolution of x and h, or x * h. In convolution, h[k] is reflected across k axis. Then, we shift the flipped h[k] by m, which we express as h[m-k]. For every shift, we see if x[k] overlaps with h[m-k]. For each overlap, we multiply the overlapping values and sum them up to get the convolution of two arrays x and h, or y[m] where m is the number of shifts. The function convolve takes 5 inputs total: float x[], float h[], int xlen, int hlen, and int ylen.
+(For more info about convolution, please look at the resources posted below.)
 
 ```C
 float* convolve(float x[], float h[], int xlen, int hlen, int * ylens)
@@ -55,7 +56,7 @@ To prove that the function was working properly, I inputted two arrays x = {1 1 
 
 ### DTFT Function
 The other lower bound goal was to create a DTFT function that took a float array x[] and outputted float complex array, where the row consisted of float complex elements. This was relatively a straight forward operation, where you implement the equation in this code snippet.
-
+(For more info about DTFT, please look at the resources posted below.)
 ```C
 for (n=0; n < dlen; n++) {
   real = 0;
@@ -166,7 +167,13 @@ I am somewhat satisfied with the progress I made on this project, mainly because
 
 **FFT algorithm:** https://rosettacode.org/wiki/Fast_Fourier_transform#C (This code was used to compare its performance with my DTFT function's performance)
 
-**External Libraries Used:** complex (to output complex numbers for DTFT), wav.h (to parse wav files)
+**Convolution Review:** http://www.songho.ca/dsp/convolution/convolution.html (to review convolution)
+
+**DTFT Review:**https://en.wikipedia.org/wiki/Discrete-time_Fourier_transform (to review DTFT)
+
+**External Libraries Used:** complex.h (to output complex numbers for DTFT), wav.h (to parse wav files)
+
+
 
 
 ### Links
