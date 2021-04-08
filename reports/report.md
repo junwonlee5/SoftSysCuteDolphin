@@ -120,7 +120,7 @@ float* choose_channel(float** x, int len, int side) {
 
 }
 ```
-I applied my convolution function to audio processing by doing a standard QEA/ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would.
+I applied my convolution function to audio processing by doing a standard QEA/ESA assignment problem where I tried to simulate sound of cow mooing in my room. I defined my clapping sound, which is close to impulse response, as array h and mooing sound as array x. Theoretically, when I convolve these two arrays it should simulate mooing sound in my room. The audio file was generated with preexisting library make_wav.h & make_wav.c, but unforunately it doesn't sound as good as I thought it would. The two audio files that were convolved are moo.wav and voice020.wav, and the convolution of those two (i.e. mooing sound in my room) is in moomod.wav.
 
 ```C
 char str[100] = "moo.wav";
